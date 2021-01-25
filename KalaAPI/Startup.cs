@@ -33,7 +33,7 @@ namespace KalaAPI
         {
 
             services.AddControllers();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("KALA_DB_CONNECTION_STRING", EnvironmentVariableTarget.Machine)));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("KALA_DB_CONNECTION_STRING")));
             services.AddCors(OptionsBuilderConfigurationExtensions =>
             {
             OptionsBuilderConfigurationExtensions.AddPolicy("AllowAll",
@@ -74,7 +74,7 @@ namespace KalaAPI
                     ValidateAudience = true,
                     ValidAudience = Configuration["JWT:ValidAudience"],
                     ValidIssuer = Configuration["JWT:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("KALA_JWT_SECRET", EnvironmentVariableTarget.Machine))),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("KALA_JWT_SECRET"))),
                     ClockSkew = TimeSpan.Zero,
                     ValidateLifetime = false
                 };
