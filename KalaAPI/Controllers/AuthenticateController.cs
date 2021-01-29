@@ -28,7 +28,7 @@ namespace KalaAPI.Controllers
         {
             this.userManager = userManager;
             _configuration = configuration;
-            
+
         }
 
         [HttpPost]
@@ -37,7 +37,7 @@ namespace KalaAPI.Controllers
         {
             var user = await userManager.FindByNameAsync(model.Email);
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
-            {   
+            {
                 var userRoles = await userManager.GetRolesAsync(user);
 
                 var authClaims = new List<Claim>
@@ -94,7 +94,7 @@ namespace KalaAPI.Controllers
 
         [HttpPost]
         [Route("email")]
-        public async Task<IActionResult> ForgetPasswordAsync(string email)
+        public async Task<IActionResult> ForgetPasswordAsync([FromBody] string email)
         {
             var user = await userManager.FindByNameAsync(email);
             if (user == null)
