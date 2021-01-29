@@ -33,6 +33,7 @@ namespace KalaAPI
         {
 
             services.AddControllers();
+            services.AddRazorPages();
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("KALA_DB_CONNECTION_STRING")));
             services.AddCors(OptionsBuilderConfigurationExtensions =>
             {
@@ -138,6 +139,7 @@ namespace KalaAPI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
         }
