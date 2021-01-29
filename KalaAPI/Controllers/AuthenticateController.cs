@@ -94,9 +94,9 @@ namespace KalaAPI.Controllers
 
         [HttpPost]
         [Route("email")]
-        public async Task<IActionResult> ForgetPasswordAsync([FromBody] string email)
+        public async Task<IActionResult> ForgetPasswordAsync([FromBody] EmailRequestModel model)
         {
-            var user = await userManager.FindByNameAsync(email);
+            var user = await userManager.FindByNameAsync(model.Email);
             if (user == null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "No account associated with Email" });
 
@@ -104,7 +104,7 @@ namespace KalaAPI.Controllers
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-            string url = $"https://kala-app-api.herokuapp.com/ResetPassword?email={email}&token={validToken}";
+            string url = $"https://kala-app-api.herokuapp.com/ResetPassword?email={model.Email}&token={validToken}";
 
             MimeMessage message = new MimeMessage();
 
@@ -113,7 +113,7 @@ namespace KalaAPI.Controllers
             message.From.Add(from);
 
             MailboxAddress to = new MailboxAddress("User",
-            email);
+            model.Email);
             message.To.Add(to);
 
             message.Subject = "Reset Password";
